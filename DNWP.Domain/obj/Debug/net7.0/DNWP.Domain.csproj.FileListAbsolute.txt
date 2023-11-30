@@ -1,0 +1,12 @@
+C:\Users\BS347\source\repos\DotNetWebProject\DNWP.Domain\bin\Debug\net7.0\DNWP.Domain.deps.json
+C:\Users\BS347\source\repos\DotNetWebProject\DNWP.Domain\bin\Debug\net7.0\DNWP.Domain.dll
+C:\Users\BS347\source\repos\DotNetWebProject\DNWP.Domain\bin\Debug\net7.0\DNWP.Domain.pdb
+C:\Users\BS347\source\repos\DotNetWebProject\DNWP.Domain\obj\Debug\net7.0\DNWP.Domain.csproj.AssemblyReference.cache
+C:\Users\BS347\source\repos\DotNetWebProject\DNWP.Domain\obj\Debug\net7.0\DNWP.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\BS347\source\repos\DotNetWebProject\DNWP.Domain\obj\Debug\net7.0\DNWP.Domain.AssemblyInfoInputs.cache
+C:\Users\BS347\source\repos\DotNetWebProject\DNWP.Domain\obj\Debug\net7.0\DNWP.Domain.AssemblyInfo.cs
+C:\Users\BS347\source\repos\DotNetWebProject\DNWP.Domain\obj\Debug\net7.0\DNWP.Domain.csproj.CoreCompileInputs.cache
+C:\Users\BS347\source\repos\DotNetWebProject\DNWP.Domain\obj\Debug\net7.0\DNWP.Domain.dll
+C:\Users\BS347\source\repos\DotNetWebProject\DNWP.Domain\obj\Debug\net7.0\refint\DNWP.Domain.dll
+C:\Users\BS347\source\repos\DotNetWebProject\DNWP.Domain\obj\Debug\net7.0\DNWP.Domain.pdb
+C:\Users\BS347\source\repos\DotNetWebProject\DNWP.Domain\obj\Debug\net7.0\ref\DNWP.Domain.dll
