@@ -21,12 +21,15 @@ public class BaseService<TEntity> : IBaseService<TEntity> where TEntity : class
     public virtual async Task<TEntity> AddAsyc(TEntity entity)
     {
         await _repository.InsertAsync(entity);
-
-        var cachedData = _memoryCache.Get(_cacheKey) as List<TEntity> ?? new List<TEntity>();
-        cachedData.Add(entity);
-        _memoryCache.Set(_cacheKey, cachedData);
-
+        _memoryCache.Remove(_cacheKey);
         return entity;
+    }
+
+    public virtual async Task<List<TEntity>> AddRangeAsync(List<TEntity> entities)
+    {
+        await _repository.InsertRangeAsync(entities);
+        _memoryCache.Remove(_cacheKey);
+        return entities;
     }
 
     public virtual async Task<bool> DeleteAsync(TEntity entity)
@@ -36,30 +39,29 @@ public class BaseService<TEntity> : IBaseService<TEntity> where TEntity : class
         if (!result)
             return false;
 
-        var cachedData = _memoryCache.Get(_cacheKey) as List<TEntity> ?? new List<TEntity>();
-        cachedData.Remove(entity);
-        _memoryCache.Set(_cacheKey, cachedData);
+        _memoryCache.Remove(_cacheKey);
 
         return true;
     }
 
-    public virtual async Task<List<TEntity>> GetAllAsync()
+    public virtual async Task<List<TEntity>> GetAllAsync(params Expression<Func<TEntity, object>>[] includes)
     {
         var cachedData = _memoryCache.Get(_cacheKey) as List<TEntity>;
 
         if (cachedData is not null)
             return cachedData;
 
-        var entities = await _repository.GetAllAsync();
+        var entities = await _repository.GetAllAsync(includes);
 
         _memoryCache.Set(_cacheKey, entities);
 
         return entities;
     }
 
-    public virtual async Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
+    public virtual async Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate, 
+        params Expression<Func<TEntity, object>>[] includes)
     {
-        return await _repository.FirstOrDefaultAsync(predicate);
+        return await _repository.FirstOrDefaultAsync(predicate, includes);
     }
 
     public virtual async Task<TEntity> GetByIdAsync(long id)
@@ -69,6 +71,8 @@ public class BaseService<TEntity> : IBaseService<TEntity> where TEntity : class
 
     public virtual async Task<TEntity> UpdateAsync(TEntity entity)
     {
-        return await _repository.UpdateAsync(entity);
+        await _repository.UpdateAsync(entity);
+        _memoryCache.Remove(_cacheKey);
+        return entity;
     }
 }

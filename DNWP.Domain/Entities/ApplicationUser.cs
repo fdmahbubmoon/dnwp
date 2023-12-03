@@ -13,34 +13,15 @@ public class ApplicationUser : IdentityUser<long>
     public string FirstName { get; set; }
 
     [MaxLength(100)]
-    public string MiddleName { get; set; }
-
-    [MaxLength(100)]
     public string LastName { get; set; }
-
-    [MaxLength(512)]
-    public string Address1 { get; set; }
-
-    [MaxLength(512)]
-    public string Address2 { get; set; }
-
-    public string ProfilePicSrc { get; set; }
-
-    [Required]
-    public DateTime ExpireDateUtc { get; set; }
-
-    [Required]
-    public int AccountStatus { get; set; }
 
     [Required]
     public DateTime CreatedDateUtc { get; set; }
 
     public DateTime? UpdatedDateUtc { get; set; }
 
-    public bool IsHeadOfficeUser { get; set; }
-
     [NotMapped]
-    public string FullName => string.Concat(FirstName + " " + MiddleName + " " + LastName).Replace("  ", " ");
+    public string FullName => $"{FirstName} {LastName}";
 
     [NotMapped]
     public string FullNameWithEmail

@@ -38,12 +38,6 @@ public class IdentityModels
     {
         public ApplicationRole() { }
         public ApplicationRole(string name) { Name = name; }
-
-        [Required]
-        public int StatusId { get; set; }
-        public string Description { get; set; }
-
-        [Required]
         public long CreatedBy { get; set; }
 
         [Required]

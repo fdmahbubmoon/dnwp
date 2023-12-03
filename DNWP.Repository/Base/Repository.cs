@@ -57,6 +57,7 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     public virtual async Task InsertRangeAsync(List<TEntity> entities)
     {
         await _dbSet.AddRangeAsync(entities);
+        await _dbContext.SaveChangesAsync();
     }
 
 
@@ -158,6 +159,17 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
         return await orderBy(
             _dbContext.Set<TEntity>().Where(predicate)
         ).ToListAsync();
+    }
+
+    public async Task<List<TEntity>> GetAllAsync(
+        params Expression<Func<TEntity, object>>[] includes
+        )
+    {
+        return await includes.Aggregate(
+            _dbContext.Set<TEntity>().AsQueryable(),
+            (current, include) => current.Include(include)
+        ).ToListAsync()
+        .ConfigureAwait(false);
     }
 
     public async Task<List<TEntity>> GetAllAsync(

@@ -33,19 +33,6 @@ namespace DNWP.Infrastructure.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<int>("AccountStatus")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Address1")
-                        .IsRequired()
-                        .HasMaxLength(512)
-                        .HasColumnType("nvarchar(512)");
-
-                    b.Property<string>("Address2")
-                        .IsRequired()
-                        .HasMaxLength(512)
-                        .HasColumnType("nvarchar(512)");
-
                     b.Property<string>("ConcurrencyStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -58,16 +45,10 @@ namespace DNWP.Infrastructure.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("ExpireDateUtc")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
-
-                    b.Property<bool>("IsHeadOfficeUser")
-                        .HasColumnType("bit");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -79,11 +60,6 @@ namespace DNWP.Infrastructure.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("MiddleName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasColumnType("nvarchar(max)");
@@ -100,10 +76,6 @@ namespace DNWP.Infrastructure.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("ProfilePicSrc")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -119,6 +91,40 @@ namespace DNWP.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "ece77ef8-ca13-4efc-b19a-f09aa9226093",
+                            CreatedDateUtc = new DateTime(2023, 11, 30, 18, 24, 34, 413, DateTimeKind.Utc).AddTicks(2819),
+                            EmailConfirmed = false,
+                            FirstName = "Admin",
+                            LastName = "1",
+                            LockoutEnabled = false,
+                            NormalizedUserName = "ADMIN1",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHCxJPd7ualeusOfdNpMBxUfcCBCUp3/p4VWrilfzoSBVF6X0nY+BOmt/RAlXw7TEg==",
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false,
+                            UserName = "admin1"
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "32363d6a-e5dd-4303-9c4c-32af7fbdfa56",
+                            CreatedDateUtc = new DateTime(2023, 11, 30, 18, 24, 34, 491, DateTimeKind.Utc).AddTicks(1216),
+                            EmailConfirmed = false,
+                            FirstName = "General",
+                            LastName = "1",
+                            LockoutEnabled = false,
+                            NormalizedUserName = "GENERAL1",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFldft9dA9tiKlm8OPqoFg6bS/I/vx8XUe/L1euGxW/8pFzJE9aZPvy6vwoN7/HPeA==",
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false,
+                            UserName = "general1"
+                        });
                 });
 
             modelBuilder.Entity("DNWP.Domain.Entities.Category", b =>
@@ -155,18 +161,11 @@ namespace DNWP.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedDateUtc")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedName")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("StatusId")
-                        .HasColumnType("int");
 
                     b.Property<long>("UpdatedBy")
                         .HasColumnType("bigint");
@@ -177,6 +176,26 @@ namespace DNWP.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            CreatedBy = 0L,
+                            CreatedDateUtc = new DateTime(2023, 11, 30, 18, 24, 34, 334, DateTimeKind.Utc).AddTicks(6751),
+                            Name = "Admin",
+                            NormalizedName = "ADMIN",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            CreatedBy = 0L,
+                            CreatedDateUtc = new DateTime(2023, 11, 30, 18, 24, 34, 334, DateTimeKind.Utc).AddTicks(6755),
+                            Name = "General",
+                            NormalizedName = "GENERAL",
+                            UpdatedBy = 0L
+                        });
                 });
 
             modelBuilder.Entity("DNWP.Domain.Entities.IdentityModels+ApplicationUserClaim", b =>
@@ -233,6 +252,18 @@ namespace DNWP.Infrastructure.Migrations
                     b.HasKey("UserId", "RoleId");
 
                     b.ToTable("AspNetUserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1L,
+                            RoleId = 1L
+                        },
+                        new
+                        {
+                            UserId = 2L,
+                            RoleId = 2L
+                        });
                 });
 
             modelBuilder.Entity("DNWP.Domain.Entities.IdentityModels+ApplicationUserToken", b =>

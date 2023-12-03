@@ -51,6 +51,8 @@ public interface IRepository<TEntity> where TEntity : class
         params Expression<Func<TEntity, object>>[] include
     );
 
+    Task<List<TEntity>> GetAllAsync(params Expression<Func<TEntity, object>>[] includes);
+
     Task<List<TEntity>> GetAllAsync(
         Expression<Func<TEntity, bool>> predicate,
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy

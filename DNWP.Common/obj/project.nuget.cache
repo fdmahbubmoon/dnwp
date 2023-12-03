@@ -1,8 +1,15 @@
 {
   "version": 2,
-  "dgSpecHash": "gIGPLBpl5iZKACG5xB5/FozuGWEQVQO8+M+dNW5Qkwbc8HZzndpF2UlQue+yIPHv1+2JWL/o4skSBR67yxdiVw==",
+  "dgSpecHash": "vG52JAJzdE2B7PmkMzHeBIha11ixsOMVJPZXmmI1279znbxtj73d80ZSbFy0EYn2c8V88Kr+6l1V1xaIKw5DuA==",
   "success": true,
   "projectFilePath": "C:\\Users\\BS347\\source\\repos\\DotNetWebProject\\DNWP.Common\\DNWP.Common.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\BS347\\.nuget\\packages\\microsoft.aspnetcore.http.abstractions\\2.2.0\\microsoft.aspnetcore.http.abstractions.2.2.0.nupkg.sha512",
+    "C:\\Users\\BS347\\.nuget\\packages\\microsoft.aspnetcore.http.features\\2.2.0\\microsoft.aspnetcore.http.features.2.2.0.nupkg.sha512",
+    "C:\\Users\\BS347\\.nuget\\packages\\microsoft.extensions.primitives\\2.2.0\\microsoft.extensions.primitives.2.2.0.nupkg.sha512",
+    "C:\\Users\\BS347\\.nuget\\packages\\system.memory\\4.5.1\\system.memory.4.5.1.nupkg.sha512",
+    "C:\\Users\\BS347\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\4.5.1\\system.runtime.compilerservices.unsafe.4.5.1.nupkg.sha512",
+    "C:\\Users\\BS347\\.nuget\\packages\\system.text.encodings.web\\4.5.0\\system.text.encodings.web.4.5.0.nupkg.sha512"
+  ],
   "logs": []
 }

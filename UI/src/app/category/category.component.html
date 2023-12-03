@@ -1,0 +1,92 @@
+<div class="main-content">
+  <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-12 col-md-12">
+          <div class="card">
+              <div class="card-header card-header-warning">
+                  <h4 class="card-title">Categories</h4>
+                  <div class="card-category">
+                    <!-- <mat-form-field class="example-full-width">
+                      <input matInput [(ngModel)]="category.categoryName"/>
+                    </mat-form-field>
+                    <button (click)="add()"
+                      mat-raised-button type="button" matTooltip="Edit Task" [matTooltipPosition]="'above'" 
+                      class="btn btn-primary btn-link btn-sm btn-just-icon">
+                      <i class="fa fa-edit"></i>
+                    </button> -->
+
+
+                  </div>
+              </div>
+              <div class="card-body table-responsive">
+                <div class="row">
+                  <div class="col">
+                    <mat-form-field class="example-full-width">
+                      <input matInput placeholder="Category" [(ngModel)]="category.categoryName"/>
+                    </mat-form-field>
+                  </div>
+                  <div class="col">
+                    <button (click)="add()"
+                    mat-raised-button type="button" matTooltip="Save" [matTooltipPosition]="'above'" 
+                    class="btn btn-primary btn-link btn-sm btn-just-icon">
+                      <i class="fa fa-plus"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <input #fileInput class="form-control" type="file" (change)="onChange($event)"> 
+                  </div>
+                  <div class="col">
+                    <button (click)="onUpload()"
+                    mat-raised-button type="button" matTooltip="Save" [matTooltipPosition]="'above'" 
+                    class="btn btn-primary btn-link btn-sm btn-just-icon">
+                      <i class="fa fa-upload"></i>
+                    </button>
+                  </div>
+                </div>
+                <table class="table table-hover">
+                    <thead class="text-warning">
+                        <th>ID</th>
+                        <th>Category Name</th>
+                        <th>Action</th>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let category of categories">
+                        <td>{{category.id}}</td>
+                        <td>
+                          <ng-container *ngIf="!category.isEditEnabled">
+                            {{category.categoryName}}
+                          </ng-container>
+                          <ng-container *ngIf="category.isEditEnabled">
+                            <mat-form-field class="example-full-width">
+                              <input matInput [(ngModel)]="category.categoryName"/>
+                            </mat-form-field>
+                          </ng-container>
+                        </td>
+                        <td>
+                          <button *ngIf="!category.isEditEnabled" (click)="edit(category)"
+                            mat-raised-button type="button" matTooltip="Edit" [matTooltipPosition]="'above'" 
+                            class="btn btn-primary btn-link btn-sm btn-just-icon">
+                            <i class="fa fa-edit"></i>
+                          </button>
+                          <button *ngIf="category.isEditEnabled" class="" (click)="close(category)"
+                            mat-raised-button type="button" matTooltip="Close" [matTooltipPosition]="'above'" 
+                            class="btn btn-primary btn-link btn-sm btn-just-icon">
+                            <i class="fa fa-close"></i>
+                          </button>
+                          <button *ngIf="category.isEditEnabled" class="" (click)="save(category)"
+                            mat-raised-button type="button" matTooltip="Save" [matTooltipPosition]="'above'" 
+                            class="btn btn-primary btn-link btn-sm btn-just-icon">
+                            <i class="fa fa-save"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                </table>
+              </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>

@@ -2,18 +2,20 @@
 using DNWP.Common.Exceptions;
 using DNWP.Domain.Entities;
 using DNWP.Domain.Models;
+using DNWP.Domain.ResponseModels;
 using DNWP.Repository.Base;
 using Microsoft.Extensions.Caching.Memory;
+using OfficeOpenXml;
+using System.IO;
+using System.IO.Pipes;
 
 namespace DNWP.Application.Services;
 
 public class CategoryService: BaseService<Category>, ICategoryService
 {
-    private readonly IMemoryCache _memoryCache;
     public CategoryService(IRepository<Category> repository, IMemoryCache memoryCache)
         : base(repository, nameof(Category), memoryCache)
     {
-        _memoryCache = memoryCache;
     }
 
     public async Task<Category> AddAsyc(Category entity)
@@ -33,12 +35,6 @@ public class CategoryService: BaseService<Category>, ICategoryService
         await ValidateCategoryAsync(entity);
 
         await base.UpdateAsync(entity);
-
-        var cachedData = _memoryCache.Get(nameof(Category)) as List<Category> ?? new List<Category>();
-        var cacheToBeUpdated = cachedData.FirstOrDefault(cache => cache.Id == id)!;
-        cacheToBeUpdated.CategoryName = entity.CategoryName;
-        _memoryCache.Set(nameof(Category), cachedData);
-
         return entity;
     }
 
@@ -51,9 +47,44 @@ public class CategoryService: BaseService<Category>, ICategoryService
         return await base.DeleteAsync(entity);
     }
 
-    public async Task AddBulkAsync()
+    private List<CategoryDto> GetCategoriesFromStream(Stream stream)
     {
+        var categories = new List<CategoryDto>();
+        using (ExcelPackage package = new ExcelPackage(stream))
+        {
+            ExcelWorkbook workBook = package.Workbook;
+            if (workBook is not null)
+            {
+                ExcelWorksheet workSheet = workBook.Worksheets.FirstOrDefault();
+                if (workSheet is not null)
+                {
+                    int totalRows = workSheet.Dimension.Rows;
+                    for (int i = 2; i <= totalRows; i++)
+                    {
+                        categories.Add(new CategoryDto
+                        {
+                            CategoryName = workSheet.GetValue(i, 1)?.ToString()
+                        });
+                    }
+                }
+            }
+        }
 
+        return categories;
+    }
+
+    public async Task<string> AddBulkAsync(Stream stream)
+    {
+        var categories = GetCategoriesFromStream(stream);
+        var validCategories = await ValidateImportedDataAsync(categories);
+
+        if (validCategories.Any())
+        {
+            await base.AddRangeAsync(validCategories);
+        }
+        return $"Total: {categories.Count}. " +
+            $"Valid: {validCategories.Count}. " +
+            $"Invalid: {categories.Count - validCategories.Count}";
     }
 
     private async Task ValidateCategoryAsync(Category category)
@@ -64,6 +95,25 @@ public class CategoryService: BaseService<Category>, ICategoryService
         if (existingCategory is null)
             return;
 
-        throw new ValidationException(nameof(category.CategoryName));
+        throw new ValidationException("Category Name");
+    }
+    private async Task<List<Category>> ValidateImportedDataAsync(List<CategoryDto> categories)
+    {
+        List<Category> validCategories = new();
+
+        var existingCategories = await GetAllAsync();
+
+        foreach(CategoryDto category in categories)
+        {
+            if (existingCategories.Exists(c => c.CategoryName == category.CategoryName))
+                continue;
+
+            if (validCategories.Exists(c => c.CategoryName == category.CategoryName))
+                continue;
+
+            validCategories.Add(category.ToCategory());
+        }
+
+        return validCategories;
     }
 }
