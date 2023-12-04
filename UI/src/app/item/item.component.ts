@@ -1,5 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { Category } from 'app/models/category';
 import { Item } from 'app/models/item';
 declare var $: any;
@@ -20,12 +23,23 @@ export class ItemComponent implements OnInit {
     itemQuantity: null,
     itemUnit: ''
   };
+  val: Item = this.item;
   baseAddress = "https://localhost:7024/api/Item";
+  dataSource = new MatTableDataSource();
+  columns: string[] = ['id', 'itemName', 'itemUnit', 'itemQuantity', 'categoryName', 'action'];
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(private httpClient: HttpClient) { }
   ngOnInit() {
     this.getCategories();
     this.get();
+  }
+
+  loadData(data:any){
+    this.dataSource = new MatTableDataSource<any>(data);
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
   }
 
   getCategories(){
@@ -40,9 +54,7 @@ export class ItemComponent implements OnInit {
     this.httpClient.get(this.baseAddress)
     .subscribe((res: Item[])=>{
       this.items = res;
-      // this.items.forEach(item=>{
-      //   item.categoryName = item.categoryName ?? this.categories.find(f=>f.id==item.categoryId).categoryName
-      // });
+      this.loadData(this.items);
     });
   }
 

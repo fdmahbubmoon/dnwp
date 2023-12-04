@@ -41,84 +41,101 @@
                     </button>
                   </div>
                 </div>
-                <table class="table table-hover">
-                    <thead class="text-warning">
-                        <th>ID</th>
-                        <th>Item Name</th>
-                        <th>Unit</th>
-                        <th>Quantity</th>
-                        <th>Category</th>
-                        <th>Action</th>
-                    </thead>
-                    <tbody>
-                      <tr *ngFor="let item of items">
-                        <td>{{item.id}}</td>
-                        <td>
-                          <ng-container *ngIf="!item.isEditEnabled">
-                            {{item.itemName}}
-                          </ng-container>
-                          <ng-container *ngIf="item.isEditEnabled">
-                            <mat-form-field class="example-full-width">
-                              <input matInput [(ngModel)]="item.itemName"/>
-                            </mat-form-field>
-                          </ng-container>
-                        </td>
-                        <td>
-                          <ng-container *ngIf="!item.isEditEnabled">
-                            {{item.itemUnit}}
-                          </ng-container>
-                          <ng-container *ngIf="item.isEditEnabled">
-                            <mat-form-field class="example-full-width">
-                              <input matInput [(ngModel)]="item.itemUnit"/>
-                            </mat-form-field>
-                          </ng-container>
-                        </td>
-                        <td>
-                          <ng-container *ngIf="!item.isEditEnabled">
-                            {{item.itemQuantity}}
-                          </ng-container>
-                          <ng-container *ngIf="item.isEditEnabled">
-                            <mat-form-field class="example-full-width">
-                              <input matInput [(ngModel)]="item.itemQuantity"/>
-                            </mat-form-field>
-                          </ng-container>
-                        </td>
-                        <td>
-                          <ng-container *ngIf="!item.isEditEnabled">
-                            {{item.categoryName}}
-                          </ng-container>
-                          <ng-container *ngIf="item.isEditEnabled">
-                            <mat-form-field class="example-full-width" *ngIf="categories">
-                              <mat-label>Category</mat-label>
-                              <mat-select [(ngModel)]="item.categoryId">
-                                  <mat-option *ngFor="let category of categories" [value]="category.id">
-                                    {{category.categoryName}}
-                                  </mat-option>
-                              </mat-select>
-                            </mat-form-field>
-                          </ng-container>
-                        </td>
-                        <td>
-                          <button *ngIf="!item.isEditEnabled" (click)="edit(item)"
-                            mat-raised-button type="button" matTooltip="Edit" [matTooltipPosition]="'above'" 
-                            class="btn btn-primary btn-link btn-sm btn-just-icon">
-                            <i class="fa fa-edit"></i>
-                          </button>
-                          <button *ngIf="item.isEditEnabled" class="" (click)="close(item)"
-                            mat-raised-button type="button" matTooltip="Close" [matTooltipPosition]="'above'" 
-                            class="btn btn-primary btn-link btn-sm btn-just-icon">
-                            <i class="fa fa-close"></i>
-                          </button>
-                          <button *ngIf="item.isEditEnabled" class="" (click)="save(item)"
-                            mat-raised-button type="button" matTooltip="Save" [matTooltipPosition]="'above'" 
-                            class="btn btn-primary btn-link btn-sm btn-just-icon">
-                            <i class="fa fa-save"></i>
-                          </button>
-                        </td>
-                      </tr>
-                    </tbody>
+
+
+
+
+
+                <table class="mat-elevation-z8 demo-table" mat-table [dataSource]="dataSource" matSort>
+                  <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
+                    <td mat-cell *matCellDef="let item">{{item.id}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="itemName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Item Name</th>
+                    <td mat-cell *matCellDef="let item">
+                      <ng-container *ngIf="!item.isEditEnabled">
+                        {{item.itemName}}
+                      </ng-container>
+                      <ng-container *ngIf="item.isEditEnabled">
+                        <mat-form-field class="example-full-width">
+                          <input matInput [(ngModel)]="item.itemName"/>
+                        </mat-form-field>
+                      </ng-container>
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="itemUnit">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Item Unit</th>
+                    <td mat-cell *matCellDef="let item">
+                      <ng-container *ngIf="!item.isEditEnabled">
+                        {{item.itemUnit}}
+                      </ng-container>
+                      <ng-container *ngIf="item.isEditEnabled">
+                        <mat-form-field class="example-full-width">
+                          <input matInput [(ngModel)]="item.itemUnit"/>
+                        </mat-form-field>
+                      </ng-container>
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="itemQuantity">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Item Quantity</th>
+                    <td mat-cell *matCellDef="let item">
+                      <ng-container *ngIf="!item.isEditEnabled">
+                        {{item.itemQuantity}}
+                      </ng-container>
+                      <ng-container *ngIf="item.isEditEnabled">
+                        <mat-form-field class="example-full-width">
+                          <input matInput [(ngModel)]="item.itemQuantity"/>
+                        </mat-form-field>
+                      </ng-container>
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="categoryName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Category</th>
+                    <td mat-cell *matCellDef="let item">
+                      <ng-container *ngIf="!item.isEditEnabled">
+                        {{item.categoryName}}
+                      </ng-container>
+                      <ng-container *ngIf="item.isEditEnabled">
+                        <mat-form-field class="example-full-width" *ngIf="categories">
+                          <mat-label>Category</mat-label>
+                          <mat-select [(ngModel)]="item.categoryId">
+                              <mat-option *ngFor="let category of categories" [value]="category.id">
+                                {{category.categoryName}}
+                              </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </ng-container>
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef>Action</th>
+                    <td mat-cell *matCellDef="let category">
+                      <button *ngIf="!category.isEditEnabled" (click)="edit(category)"
+                        mat-raised-button type="button" matTooltip="Edit" [matTooltipPosition]="'above'" 
+                        class="btn btn-primary btn-link btn-sm btn-just-icon">
+                        <i class="fa fa-edit"></i>
+                      </button>
+                      <button *ngIf="category.isEditEnabled" class="" (click)="close(category)"
+                        mat-raised-button type="button" matTooltip="Close" [matTooltipPosition]="'above'" 
+                        class="btn btn-primary btn-link btn-sm btn-just-icon">
+                        <i class="fa fa-close"></i>
+                      </button>
+                      <button *ngIf="category.isEditEnabled" class="" (click)="save(category)"
+                        mat-raised-button type="button" matTooltip="Save" [matTooltipPosition]="'above'" 
+                        class="btn btn-primary btn-link btn-sm btn-just-icon">
+                        <i class="fa fa-save"></i>
+                        </button>
+                    </td>
+                  </ng-container>
+                  <tr mat-header-row *matHeaderRowDef="columns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: columns;"></tr>
                 </table>
               </div>
+              <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                showFirstLastButtons
+                aria-label="Select page of Itemms">
+              </mat-paginator>
           </div>
         </div>
       </div>

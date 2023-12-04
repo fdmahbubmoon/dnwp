@@ -1,5 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { Category } from 'app/models/category';
 import { Observable } from 'rxjs';
 declare var $: any;
@@ -8,7 +11,7 @@ declare var $: any;
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
-  styleUrls: ['./category.component.css']
+  styleUrls: ['./category.component.css'],
 })
 export class CategoryComponent implements OnInit {
   loading: boolean = false;
@@ -17,26 +20,44 @@ export class CategoryComponent implements OnInit {
   category: Category = {
     categoryName: ''
   };
+  val: Category = this.category;
+  dataSource = new MatTableDataSource();
+  columns: string[] = ['id', 'categoryName', 'action'];
   baseAddress = "https://localhost:7024/api/Category";
   @ViewChild('fileInput') fileInput: ElementRef;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(private httpClient: HttpClient) { }
   ngOnInit() {
     this.get();
   }
 
+  loadData(data:any){
+    this.dataSource = new MatTableDataSource<any>(data);
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+  }
+
   get(){
     this.httpClient.get(this.baseAddress)
     .subscribe((res: Category[])=>{
       this.categories = res;
+      this.loadData(this.categories);
     });
   }
 
   edit(category: Category){
+    this.val.categoryName = category.categoryName;
+    console.log(this.val);
     category.isEditEnabled = true;
   }
   close(category: Category){
+    console.log(this.val);
+    category.categoryName = this.val.categoryName;
     category.isEditEnabled = false;
+    // this.loadData(this.categories);
+
   }
   add(){
     this.httpClient.post(this.baseAddress, this.category)

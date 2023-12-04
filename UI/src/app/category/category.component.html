@@ -45,47 +45,58 @@
                     </button>
                   </div>
                 </div>
-                <table class="table table-hover">
-                    <thead class="text-warning">
-                        <th>ID</th>
-                        <th>Category Name</th>
-                        <th>Action</th>
-                    </thead>
-                    <tbody>
-                      <tr *ngFor="let category of categories">
-                        <td>{{category.id}}</td>
-                        <td>
-                          <ng-container *ngIf="!category.isEditEnabled">
-                            {{category.categoryName}}
-                          </ng-container>
-                          <ng-container *ngIf="category.isEditEnabled">
-                            <mat-form-field class="example-full-width">
-                              <input matInput [(ngModel)]="category.categoryName"/>
-                            </mat-form-field>
-                          </ng-container>
-                        </td>
-                        <td>
-                          <button *ngIf="!category.isEditEnabled" (click)="edit(category)"
-                            mat-raised-button type="button" matTooltip="Edit" [matTooltipPosition]="'above'" 
-                            class="btn btn-primary btn-link btn-sm btn-just-icon">
-                            <i class="fa fa-edit"></i>
-                          </button>
-                          <button *ngIf="category.isEditEnabled" class="" (click)="close(category)"
-                            mat-raised-button type="button" matTooltip="Close" [matTooltipPosition]="'above'" 
-                            class="btn btn-primary btn-link btn-sm btn-just-icon">
-                            <i class="fa fa-close"></i>
-                          </button>
-                          <button *ngIf="category.isEditEnabled" class="" (click)="save(category)"
-                            mat-raised-button type="button" matTooltip="Save" [matTooltipPosition]="'above'" 
-                            class="btn btn-primary btn-link btn-sm btn-just-icon">
-                            <i class="fa fa-save"></i>
-                          </button>
-                        </td>
-                      </tr>
-                    </tbody>
+                <table class="mat-elevation-z8 demo-table" mat-table [dataSource]="dataSource" matSort>
+                  <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
+                    <td mat-cell *matCellDef="let category">{{category.id}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="categoryName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Category Name</th>
+                    <td mat-cell *matCellDef="let category">
+                      <ng-container *ngIf="!category.isEditEnabled">
+                        {{category.categoryName}}
+                      </ng-container>
+                      <ng-container *ngIf="category.isEditEnabled">
+                        <mat-form-field class="example-full-width">
+                          <input matInput [(ngModel)]="category.categoryName"/>
+                        </mat-form-field>
+                      </ng-container>
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef>Action</th>
+                    <td mat-cell *matCellDef="let category">
+                      <button *ngIf="!category.isEditEnabled" (click)="edit(category)"
+                        mat-raised-button type="button" matTooltip="Edit" [matTooltipPosition]="'above'" 
+                        class="btn btn-primary btn-link btn-sm btn-just-icon">
+                        <i class="fa fa-edit"></i>
+                      </button>
+                      <button *ngIf="category.isEditEnabled" class="" (click)="close(category)"
+                        mat-raised-button type="button" matTooltip="Close" [matTooltipPosition]="'above'" 
+                        class="btn btn-primary btn-link btn-sm btn-just-icon">
+                        <i class="fa fa-close"></i>
+                      </button>
+                      <button *ngIf="category.isEditEnabled" class="" (click)="save(category)"
+                        mat-raised-button type="button" matTooltip="Save" [matTooltipPosition]="'above'" 
+                        class="btn btn-primary btn-link btn-sm btn-just-icon">
+                        <i class="fa fa-save"></i>
+                        </button>
+                    </td>
+                  </ng-container>
+                  <tr mat-header-row *matHeaderRowDef="columns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: columns;"></tr>
                 </table>
               </div>
-          </div>
+              <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                showFirstLastButtons
+                aria-label="Select page of Categories">
+              </mat-paginator>
+            </div>
+
+            
+
+
+
         </div>
       </div>
   </div>
