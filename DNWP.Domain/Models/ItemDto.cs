@@ -11,8 +11,8 @@ public record ItemDto
 {
     public required string ItemName { get; set; }
     public required string ItemUnit { get; set; }
-    public decimal ItemQuantity { get; set; }
-    public long CategoryId { get; set; }
+    public required decimal ItemQuantity { get; set; }
+    public required long CategoryId { get; set; }
     public Item ToItem()
     {
         return new Item { 
@@ -30,4 +30,14 @@ public record ItemBulkDto
     public required string ItemUnit { get; set; }
     public decimal ItemQuantity { get; set; }
     public string CategoryName { get; set; }
+
+    public Item ToItem()
+    {
+        return new Item
+        {
+            ItemName = ItemName,
+            ItemQuantity = ItemQuantity,
+            ItemUnit = ItemUnit
+        };
+    }
 }

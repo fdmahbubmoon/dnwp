@@ -1,3 +1,4 @@
+<mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
 <div class="main-content">
   <div class="container-fluid">
       <div class="row">
@@ -27,9 +28,9 @@
                     <mat-form-field class="example-full-width" *ngIf="categories">
                       <mat-label>Category</mat-label>
                       <mat-select [(ngModel)]="item.categoryId">
-                          <mat-option *ngFor="let category of categories" [value]="category.id">
-                            {{category.categoryName}}
-                          </mat-option>
+                        <mat-option *ngFor="let category of categories" [value]="category.id">
+                          {{category.categoryName}}
+                        </mat-option>
                       </mat-select>
                     </mat-form-field>
                   </div>
@@ -41,7 +42,18 @@
                     </button>
                   </div>
                 </div>
-
+                <div class="row">
+                  <div class="col">
+                    <input #fileInput class="form-control" type="file" (change)="onChange($event)"> 
+                  </div>
+                  <div class="col">
+                    <button (click)="onUpload()"
+                    mat-raised-button type="button" matTooltip="Upload" [matTooltipPosition]="'above'" 
+                    class="btn btn-primary btn-link btn-sm btn-just-icon">
+                      <i class="fa fa-upload"></i>
+                    </button>
+                  </div>
+                </div>
 
 
 
@@ -132,9 +144,12 @@
                   <tr mat-row *matRowDef="let row; columns: columns;"></tr>
                 </table>
               </div>
-              <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+              <mat-paginator
                 showFirstLastButtons
-                aria-label="Select page of Itemms">
+                [pageSizeOptions]="pagination.pageSizes" [pageSize]="pagination.pageSize"
+                [pageIndex]="pagination.pageIndex" [length]="pagination.totalCount"
+                (page)="changePage($event)"
+                aria-label="Select page of Categories">
               </mat-paginator>
           </div>
         </div>

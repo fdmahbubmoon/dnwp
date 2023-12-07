@@ -3,7 +3,7 @@ using DNWP.Domain.Models;
 
 namespace DNWP.Application.Interfaces;
 
-public interface ICategoryService : IBaseService<Category>
+public interface ICategoryService : IBaseServiceFactory<Category>
 {
     Task<Category> UpdateAsync(long id, CategoryDto category);
     Task<bool> DeleteAsync(long id);

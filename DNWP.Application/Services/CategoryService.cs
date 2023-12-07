@@ -11,7 +11,7 @@ using System.IO.Pipes;
 
 namespace DNWP.Application.Services;
 
-public class CategoryService: BaseService<Category>, ICategoryService
+public class CategoryService: BaseServiceFactory<Category>, ICategoryService
 {
     public CategoryService(IRepository<Category> repository, IMemoryCache memoryCache)
         : base(repository, nameof(Category), memoryCache)
@@ -101,7 +101,7 @@ public class CategoryService: BaseService<Category>, ICategoryService
     {
         List<Category> validCategories = new();
 
-        var existingCategories = await GetAllAsync();
+        var existingCategories = await GetAllAsync(s => s.OrderBy(o => o.Id));
 
         foreach(CategoryDto category in categories)
         {

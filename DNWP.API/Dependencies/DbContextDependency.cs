@@ -29,5 +29,11 @@ public static class DbContextDependency
          .AddEntityFrameworkStores<ApplicationDbContext>()
          .AddDefaultTokenProviders();
 
+        using (var serviceProvider = services.BuildServiceProvider())
+        {
+            var context = serviceProvider.GetRequiredService<ApplicationDbContext>();
+            context.Database.EnsureCreated();
+        }
+
     }
 }

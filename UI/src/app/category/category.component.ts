@@ -1,9 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Category } from 'app/models/category';
+import { Pagination } from 'app/models/pagination';
 import { Observable } from 'rxjs';
 declare var $: any;
 
@@ -20,13 +20,15 @@ export class CategoryComponent implements OnInit {
   category: Category = {
     categoryName: ''
   };
-  val: Category = this.category;
+  val: Category = {
+    categoryName: ''
+  }
   dataSource = new MatTableDataSource();
   columns: string[] = ['id', 'categoryName', 'action'];
   baseAddress = "https://localhost:7024/api/Category";
   @ViewChild('fileInput') fileInput: ElementRef;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  pagination = new Pagination();
 
   constructor(private httpClient: HttpClient) { }
   ngOnInit() {
@@ -36,27 +38,24 @@ export class CategoryComponent implements OnInit {
   loadData(data:any){
     this.dataSource = new MatTableDataSource<any>(data);
     this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
   }
 
   get(){
-    this.httpClient.get(this.baseAddress)
-    .subscribe((res: Category[])=>{
-      this.categories = res;
+    this.httpClient.get(this.baseAddress+'/page?index='+this.pagination.pageIndex + '&size=' + this.pagination.pageSize)
+    .subscribe((res: any)=>{
+      this.categories = res.data;
+      this.pagination.totalCount = res.totalCount;
       this.loadData(this.categories);
     });
   }
 
   edit(category: Category){
     this.val.categoryName = category.categoryName;
-    console.log(this.val);
     category.isEditEnabled = true;
   }
   close(category: Category){
-    console.log(this.val);
     category.categoryName = this.val.categoryName;
     category.isEditEnabled = false;
-    // this.loadData(this.categories);
 
   }
   add(){
@@ -92,16 +91,17 @@ export class CategoryComponent implements OnInit {
   } 
 
   onUpload() { 
-    this.loading = !this.loading;
+    this.loading = true;
     this.upload(this.file).subscribe( 
       (res: any) => {
         this.notify(res.message, true);
         this.file = null;
         this.fileInput.nativeElement.value = "";
         this.get();
+        this.loading = false;
       },
       error=>{
-        console.log(error);
+        console.error(error);
       } 
     ); 
   } 
@@ -110,7 +110,13 @@ export class CategoryComponent implements OnInit {
     const formData = new FormData();  
     formData.append("file", file, file.name); 
     return this.httpClient.post(this.baseAddress + '/bulk' , formData) 
-} 
+  } 
+
+  changePage($event){
+    this.pagination.pageSize = $event.pageSize;
+    this.pagination.pageIndex = $event.pageIndex;
+    this.get();
+  }
 
   notify(message, isSuccess){
     $.notify({

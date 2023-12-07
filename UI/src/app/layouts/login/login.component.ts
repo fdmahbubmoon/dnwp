@@ -33,12 +33,11 @@ export class LoginComponent implements OnInit {
         this.httpClient.post('https://localhost:7024/api/Auth', this.loginDto)
         .subscribe(
             (res: TokenVm)=>{
-                console.log(res);
                 if(res.roles.includes('Admin')){
-                    this.router.navigate(['/category']);
+                    this.router.navigate(['/admin/category']);
                 }
                 else{
-                    this.router.navigate(['/item']);
+                    this.router.navigate(['/admin/item']);
                 }
             },
             error=>{

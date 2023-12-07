@@ -14,6 +14,7 @@ import { CategoryComponent } from 'app/category/category.component';
 import { ItemComponent } from 'app/item/item.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 @NgModule({
   imports: [
@@ -29,7 +30,8 @@ import { MatSortModule } from '@angular/material/sort';
     MatTooltipModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatProgressBarModule
   ],
   declarations: [
     CategoryComponent,

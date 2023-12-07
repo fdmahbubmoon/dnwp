@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { TokenVm } from 'app/models/tokenVm';
+import { CookieService } from 'ngx-cookie-service';
 
 declare const $: any;
 declare interface RouteInfo {
@@ -8,8 +10,8 @@ declare interface RouteInfo {
     class: string;
 }
 export const ROUTES: RouteInfo[] = [
-    { path: '/category', title: 'Category',  icon: 'dashboard', class: '' },
-    { path: '/item', title: 'Item',  icon: 'dashboard', class: '' }
+    { path: '/admin/category', title: 'Category',  icon: 'dashboard', class: '' },
+    { path: '/admin/item', title: 'Item',  icon: 'dashboard', class: '' }
 ];
 
 @Component({
@@ -20,10 +22,19 @@ export const ROUTES: RouteInfo[] = [
 export class SidebarComponent implements OnInit {
   menuItems: any[];
 
-  constructor() { }
+  constructor(private cookieService: CookieService) { }
 
   ngOnInit() {
-    this.menuItems = ROUTES.filter(menuItem => menuItem);
+    let token = this.cookieService.get('auth_token');
+    if(!token)
+      return;
+    let parsedToken = JSON.parse(token) as TokenVm;
+    if(parsedToken.roles.includes('Admin')){
+      this.menuItems = ROUTES.filter(menuItem => menuItem);
+    }
+    else{
+      this.menuItems = ROUTES.filter(menuItem => menuItem && menuItem.title == 'Item');
+    }
   }
   isMobileMenu() {
       if ($(window).width() > 991) {

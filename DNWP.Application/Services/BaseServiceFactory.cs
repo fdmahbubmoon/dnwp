@@ -1,4 +1,5 @@
 ﻿using DNWP.Application.Interfaces;
+using DNWP.Domain.Models;
 using DNWP.Infrastructure;
 using DNWP.Repository.Base;
 using Microsoft.EntityFrameworkCore;
@@ -7,12 +8,12 @@ using System.Linq.Expressions;
 
 namespace DNWP.Application.Services;
 
-public class BaseService<TEntity> : IBaseService<TEntity> where TEntity : class
+public class BaseServiceFactory<TEntity> : IBaseServiceFactory<TEntity> where TEntity : class
 {
     private readonly IRepository<TEntity> _repository;
     private readonly string _cacheKey;
     private readonly IMemoryCache _memoryCache;
-    public BaseService(IRepository<TEntity> repository, string cacheKey, IMemoryCache memoryCache)
+    public BaseServiceFactory(IRepository<TEntity> repository, string cacheKey, IMemoryCache memoryCache)
     {
         _repository = repository;
         _cacheKey = cacheKey;
@@ -44,18 +45,51 @@ public class BaseService<TEntity> : IBaseService<TEntity> where TEntity : class
         return true;
     }
 
-    public virtual async Task<List<TEntity>> GetAllAsync(params Expression<Func<TEntity, object>>[] includes)
+    public virtual async Task<List<TEntity>> GetAllAsync(
+        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy,
+        params Expression<Func<TEntity, object>>[] includes)
     {
         var cachedData = _memoryCache.Get(_cacheKey) as List<TEntity>;
 
         if (cachedData is not null)
             return cachedData;
 
-        var entities = await _repository.GetAllAsync(includes);
+        var entities = await _repository.GetAllAsync(a=> true, orderBy, includes);
 
         _memoryCache.Set(_cacheKey, entities);
 
         return entities;
+    }
+
+    public virtual async Task<PagedList<TEntity>> GetPageAsync(int index, 
+        int size, 
+        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy, 
+        params Expression<Func<TEntity, object>>[] includes)
+    {
+        string pageCacheKey = _cacheKey;
+        var cachedData = _memoryCache.Get(pageCacheKey) as List<TEntity>;
+
+        if (cachedData is not null)
+        {
+            return new PagedList<TEntity>()
+            {
+                TotalPages = Convert.ToInt32(Math.Ceiling(1.0 * cachedData.Count / size)),
+                TotalCount = cachedData.Count,
+                Data = cachedData.Skip(index * size).Take(size).ToList()
+            };
+        }
+
+        var entities = await _repository.GetAllAsync(a => true, orderBy,includes);
+        _memoryCache.Set(pageCacheKey, entities);
+
+        var totalCount = entities.Count;
+
+        return new PagedList<TEntity>()
+        {
+            TotalPages = Convert.ToInt32(Math.Ceiling(1.0 * totalCount / size)),
+            TotalCount = totalCount,
+            Data = entities.Skip(index * size).Take(size).ToList()
+        };
     }
 
     public virtual async Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate, 

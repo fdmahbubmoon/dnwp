@@ -1,10 +1,11 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Category } from 'app/models/category';
 import { Item } from 'app/models/item';
+import { Pagination } from 'app/models/pagination';
+import { Observable } from 'rxjs';
 declare var $: any;
 
 
@@ -23,12 +24,20 @@ export class ItemComponent implements OnInit {
     itemQuantity: null,
     itemUnit: ''
   };
-  val: Item = this.item;
+  val: Item = {
+    itemName: '',
+    categoryId: null,
+    itemQuantity: null,
+    itemUnit: ''
+  };;
+  file: File = null;
+  loading: boolean = false;
   baseAddress = "https://localhost:7024/api/Item";
   dataSource = new MatTableDataSource();
   columns: string[] = ['id', 'itemName', 'itemUnit', 'itemQuantity', 'categoryName', 'action'];
   @ViewChild(MatSort, { static: true }) sort: MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild('fileInput') fileInput: ElementRef;
+  pagination = new Pagination();
 
   constructor(private httpClient: HttpClient) { }
   ngOnInit() {
@@ -39,21 +48,20 @@ export class ItemComponent implements OnInit {
   loadData(data:any){
     this.dataSource = new MatTableDataSource<any>(data);
     this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
   }
 
   getCategories(){
     this.httpClient.get('https://localhost:7024/api/Category')
     .subscribe((res: Category[])=>{
       this.categories = res;
-      console.log(this.categories);
     });
   }
 
   get(){
-    this.httpClient.get(this.baseAddress)
-    .subscribe((res: Item[])=>{
-      this.items = res;
+    this.httpClient.get(this.baseAddress+'/page?index='+this.pagination.pageIndex + '&size=' + this.pagination.pageSize)
+    .subscribe((res: any)=>{
+      this.items = res.data;
+      this.pagination.totalCount = res.totalCount;
       this.loadData(this.items);
     });
   }
@@ -97,6 +105,38 @@ export class ItemComponent implements OnInit {
         this.get();
     });
 
+  }
+
+  onChange(event) { 
+    this.file = event.target.files[0]; 
+  } 
+
+  onUpload() { 
+    this.loading = true;
+    this.upload(this.file).subscribe( 
+      (res: any) => {
+        this.notify(res.message, true);
+        this.file = null;
+        this.fileInput.nativeElement.value = "";
+        this.loading = false;
+        this.get();
+      },
+      error=>{
+        console.error(error);
+      } 
+    ); 
+  } 
+
+  upload(file):Observable<any> {
+    const formData = new FormData();  
+    formData.append("file", file, file.name); 
+    return this.httpClient.post(this.baseAddress + '/bulk' , formData) 
+  }
+
+  changePage($event){
+    this.pagination.pageSize = $event.pageSize;
+    this.pagination.pageIndex = $event.pageIndex;
+    this.get();
   }
 
   notify(message, isSuccess){

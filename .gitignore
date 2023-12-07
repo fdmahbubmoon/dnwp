@@ -735,3 +735,4 @@ testem.log
 .DS_Store
 Thumbs.db
 .vscode/settings.json
+/DNWP.Application/DNWP.Application.csproj

@@ -1,4 +1,5 @@
 ﻿using DNWP.Application.Interfaces;
+using DNWP.Domain.Entities;
 using DNWP.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +19,15 @@ public class CategoryController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAsync()
     {
-        var categories = await _categoryService.GetAllAsync();
+        var categories = await _categoryService.GetAllAsync(s => s.OrderBy(o => o.Id));
+        return Ok(categories);
+    }
+
+    [HttpGet("page")]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> GetPageAsync([FromQuery ]int index, [FromQuery] int size)
+    {
+        PagedList<Category> categories = await _categoryService.GetPageAsync(index, size, s => s.OrderBy(o => o.Id));
         return Ok(categories);
     }
 
@@ -40,7 +49,7 @@ public class CategoryController : ControllerBase
 
     [HttpPut("{id}")]
     [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> PutAsync(long id, [FromBody] CategoryDto category)
+    public async Task<IActionResult> UpdateAsync(long id, [FromBody] CategoryDto category)
     {
         await _categoryService.UpdateAsync(id, category);
         return Ok(category);

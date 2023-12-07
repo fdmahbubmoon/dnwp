@@ -68,7 +68,7 @@ builder.Services.AddTransient<ILoggedInUserService, LoggedInUserService>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
 builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddScoped(typeof(IBaseService<>), typeof(BaseService<>));
+builder.Services.AddScoped(typeof(IBaseServiceFactory<>), typeof(BaseServiceFactory<>));
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IItemService, ItemService>();
 ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
