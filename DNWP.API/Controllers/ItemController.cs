@@ -44,7 +44,7 @@ public class ItemController : ControllerBase
     public async Task<IActionResult> AddAsync([FromBody] ItemDto itemModel)
     {
         var item = itemModel.ToItem();
-        await _itemService.AddAsyc(item);
+        await _itemService.AddAsync(item);
         return Ok(item);
     }
 

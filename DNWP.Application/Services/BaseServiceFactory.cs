@@ -19,7 +19,7 @@ public class BaseServiceFactory<TEntity> : IBaseServiceFactory<TEntity> where TE
         _cacheKey = cacheKey;
         _memoryCache = memoryCache;
     }
-    public virtual async Task<TEntity> AddAsyc(TEntity entity)
+    public virtual async Task<TEntity> AddAsync(TEntity entity)
     {
         await _repository.InsertAsync(entity);
         _memoryCache.Remove(_cacheKey);

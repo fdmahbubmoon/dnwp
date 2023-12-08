@@ -57,11 +57,11 @@ public class ItemService : BaseServiceFactory<Item>, IItemService
         }).ToList();
     }
 
-    public async Task<Item> AddAsyc(Item entity)
+    public async Task<Item> AddAsync(Item entity)
     {
         await ValidateItemAsync(entity);
         
-        return await base.AddAsyc(entity);
+        return await base.AddAsync(entity);
     }
 
     public async Task<Item> UpdateAsync(long id, ItemDto item)

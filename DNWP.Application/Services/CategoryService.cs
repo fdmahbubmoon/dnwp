@@ -18,11 +18,11 @@ public class CategoryService: BaseServiceFactory<Category>, ICategoryService
     {
     }
 
-    public async Task<Category> AddAsyc(Category entity)
+    public async Task<Category> AddAsync(Category entity)
     {
         await ValidateCategoryAsync(entity);
         
-        return await base.AddAsyc(entity);
+        return await base.AddAsync(entity);
     }
 
     public async Task<Category> UpdateAsync(long id, CategoryDto category)

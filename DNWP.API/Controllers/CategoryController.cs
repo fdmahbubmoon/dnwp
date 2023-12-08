@@ -43,7 +43,7 @@ public class CategoryController : ControllerBase
     public async Task<IActionResult> AddAsync([FromBody] CategoryDto categoryModel)
     {
         var category = categoryModel.ToCategory();
-        await _categoryService.AddAsyc(category);
+        await _categoryService.AddAsync(category);
         return Ok(category);
     }
 

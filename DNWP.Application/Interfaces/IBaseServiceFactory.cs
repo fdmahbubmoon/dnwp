@@ -8,7 +8,7 @@ public interface IBaseServiceFactory<TEntity> where TEntity : class
     Task<List<TEntity>> GetAllAsync(Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy, 
         params Expression<Func<TEntity, object>>[] includes);
     Task<TEntity> GetByIdAsync(long id);
-    Task<TEntity> AddAsyc(TEntity entity);
+    Task<TEntity> AddAsync(TEntity entity);
     Task<List<TEntity>> AddRangeAsync(List<TEntity> entities);
     Task<TEntity> UpdateAsync(TEntity entity);
     Task<bool> DeleteAsync(TEntity entity);
