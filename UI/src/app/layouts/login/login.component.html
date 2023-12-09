@@ -1,39 +1,40 @@
 <div class="main-content h-100">
     <div class="container-fluid align-middle">
         <div class="row">
-            <div class="offset-lg-3 col-lg-6 offset-md-3 col-md-6 offset-sm-2 col-sm-8 vh-100">
+            <div class="offset-lg-4 col-lg-4 offset-md-3 col-md-6 offset-sm-2 col-sm-8 vh-100">
 
-        <div class="card" style="top:100px">
-            <div class="card-header card-header-warning">
-                <h4 class="card-title">Welcome</h4>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col">
-                        <mat-form-field class="example-full-width">
-                            <input matInput placeholder="Username" [(ngModel)]="loginDto.userName"/>
-                    </mat-form-field>
+                <div class="card" style="top:100px">
+                    <div class="card-header card-header-info">
+                        <h4 class="card-title">Welcome</h4>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <mat-form-field class="example-full-width">
-                            <input matInput placeholder="Password" type="password" [(ngModel)]="loginDto.password"/>
-                        </mat-form-field>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <button (click)="login()"
-                        mat-raised-button type="submit" class="btn btn-primary btn-block">
-                        Login
-                    </button>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <mat-form-field class="example-full-width">
+                                    <input matInput placeholder="Username" [(ngModel)]="loginDto.userName"/>
+                            </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <mat-form-field class="example-full-width">
+                                    <input matInput placeholder="Password" type="password" 
+                                    [(ngModel)]="loginDto.password" (keyup.enter)="login()"/>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <button (click)="login()"
+                                mat-raised-button type="submit" class="btn btn-info btn-block">
+                                Login
+                            </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
     </div>
 </div>
 

@@ -19,9 +19,6 @@ export class LoginComponent implements OnInit {
         password: ''
     };
     tokenVm: TokenVm;
-    private _router: Subscription;
-    private lastPoppedUrl: string;
-    private yScrollStack: number[] = [];
   
     constructor( public location: Location, private router: Router, private httpClient: HttpClient, ) {}
 

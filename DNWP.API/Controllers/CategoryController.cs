@@ -1,6 +1,9 @@
-﻿using DNWP.Application.Interfaces;
+﻿using DNWP.API.Validators;
+using DNWP.Application.Interfaces;
 using DNWP.Domain.Entities;
 using DNWP.Domain.Models;
+using FluentValidation;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -42,6 +45,7 @@ public class CategoryController : ControllerBase
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> AddAsync([FromBody] CategoryDto categoryModel)
     {
+        Validate(categoryModel);
         var category = categoryModel.ToCategory();
         await _categoryService.AddAsync(category);
         return Ok(category);
@@ -51,6 +55,7 @@ public class CategoryController : ControllerBase
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> UpdateAsync(long id, [FromBody] CategoryDto category)
     {
+        Validate(category);
         await _categoryService.UpdateAsync(id, category);
         return Ok(category);
     }
@@ -78,5 +83,17 @@ public class CategoryController : ControllerBase
         var inputstream = file.OpenReadStream();
         var response = await _categoryService.AddBulkAsync(inputstream);
         return Ok(new { Message = response });
+    }
+
+    private static void Validate(CategoryDto category)
+    {
+        CategoryDtoValidator validator = new();
+
+        ValidationResult result = validator.Validate(category);
+
+        if (!result.IsValid)
+        {
+            throw new ValidationException(result.Errors);
+        }
     }
 }

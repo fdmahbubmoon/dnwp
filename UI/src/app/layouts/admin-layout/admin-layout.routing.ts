@@ -11,5 +11,9 @@ export const AdminLayoutRoutes: Routes = [
     { 
         path: 'item',
         component: ItemComponent 
+    },
+    { 
+        path: '',
+        component: CategoryComponent 
     }
 ];

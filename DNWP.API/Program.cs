@@ -1,5 +1,6 @@
 using DNWP.API.Dependencies;
 using DNWP.API.Extensions;
+using DNWP.API.Middlewares;
 using DNWP.Application.Interfaces;
 using DNWP.Application.Services;
 using DNWP.Common.Helpers;
@@ -10,6 +11,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
 using OfficeOpenXml;
+using System.Text.Json;
 using static DNWP.Domain.Entities.IdentityModels;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -64,6 +66,7 @@ builder.Services.AddMemoryCache();
 builder.Services.AddDbContextDependencies(builder.Configuration);
 builder.Services.AddJWT(builder.Configuration);
 builder.Services.AddTransient<ILoggedInUserService, LoggedInUserService>();
+builder.Services.AddSingleton<ITokenBlacklistManager, TokenBlacklistManager>();
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
@@ -82,24 +85,38 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<JwtBlacklistMiddleware>();
+
 app.UseExceptionHandler(exceptionHandlerApp =>
 {
     exceptionHandlerApp.Run(async context =>
     {
-        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-
         context.Response.ContentType = Text.Plain;
 
-        var exceptionHandlerPathFeature =
+        var exception =
             context.Features.Get<IExceptionHandlerPathFeature>();
 
-        await context.Response.WriteAsync(
-            exceptionHandlerPathFeature.Error.Message ?? 
-            exceptionHandlerPathFeature.Error.InnerException.Message);
+        FluentValidation.ValidationException fluentException = exception.Error as FluentValidation.ValidationException;
 
+        if (fluentException is not null)
+        {
+            var response = fluentException.Errors.Select(a => new { Message = a.ErrorMessage }).ToList();
 
+            context.Response.StatusCode = StatusCodes.Status400BadRequest;
+            await context.Response.WriteAsync(
+                JsonSerializer.Serialize(response)
+                );
+        }
+        else
+        {
+            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+            await context.Response.WriteAsync(
+                exception.Error.Message ??
+                exception.Error.InnerException.Message);
+        }
     });
 });
+
 
 
 app.UseHttpsRedirection();

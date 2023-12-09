@@ -1,8 +1,11 @@
-﻿using DNWP.Application.Interfaces;
+﻿using DNWP.API.Validators;
+using DNWP.Application.Interfaces;
 using DNWP.Application.Services;
 using DNWP.Domain.Entities;
 using DNWP.Domain.Models;
 using DNWP.Domain.ResponseModels;
+using FluentValidation;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -43,6 +46,7 @@ public class ItemController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> AddAsync([FromBody] ItemDto itemModel)
     {
+        Validate(itemModel);
         var item = itemModel.ToItem();
         await _itemService.AddAsync(item);
         return Ok(item);
@@ -51,6 +55,7 @@ public class ItemController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateAsync(long id, [FromBody] ItemDto item)
     {
+        Validate(item);
         await _itemService.UpdateAsync(id, item);
         return Ok(item);
     }
@@ -77,5 +82,16 @@ public class ItemController : ControllerBase
         var inputstream = file.OpenReadStream();
         var response = await _itemService.AddBulkAsync(inputstream);
         return Ok(new { Message = response });
+    }
+    private static void Validate(ItemDto item)
+    {
+        ItemDtoValidator validator = new();
+
+        ValidationResult result = validator.Validate(item);
+
+        if (!result.IsValid)
+        {
+            throw new ValidationException(result.Errors);
+        }
     }
 }

@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col-lg-12 col-md-12">
           <div class="card">
-              <div class="card-header card-header-warning">
+              <div class="card-header card-header-info">
                   <h4 class="card-title">Categories</h4>
               </div>
               <div class="card-body table-responsive">
@@ -17,7 +17,7 @@
                   <div class="col">
                     <button (click)="add()"
                     mat-raised-button type="button" matTooltip="Save" [matTooltipPosition]="'above'" 
-                    class="btn btn-primary btn-link btn-sm btn-just-icon">
+                    class="btn btn-info btn-link btn-sm btn-just-icon">
                       <i class="fa fa-plus"></i>
                     </button>
                   </div>
@@ -29,7 +29,7 @@
                   <div class="col">
                     <button (click)="onUpload()"
                     mat-raised-button type="button" matTooltip="Upload" [matTooltipPosition]="'above'" 
-                    class="btn btn-primary btn-link btn-sm btn-just-icon">
+                    class="btn btn-info btn-link btn-sm btn-just-icon">
                       <i class="fa fa-upload"></i>
                     </button>
                   </div>
@@ -57,17 +57,17 @@
                     <td mat-cell *matCellDef="let category">
                       <button *ngIf="!category.isEditEnabled" (click)="edit(category)"
                         mat-raised-button type="button" matTooltip="Edit" [matTooltipPosition]="'above'" 
-                        class="btn btn-primary btn-link btn-sm btn-just-icon">
+                        class="btn btn-info btn-link btn-sm btn-just-icon">
                         <i class="fa fa-edit"></i>
                       </button>
                       <button *ngIf="category.isEditEnabled" class="" (click)="close(category)"
                         mat-raised-button type="button" matTooltip="Close" [matTooltipPosition]="'above'" 
-                        class="btn btn-primary btn-link btn-sm btn-just-icon">
+                        class="btn btn-info btn-link btn-sm btn-just-icon">
                         <i class="fa fa-close"></i>
                       </button>
                       <button *ngIf="category.isEditEnabled" class="" (click)="save(category)"
                         mat-raised-button type="button" matTooltip="Save" [matTooltipPosition]="'above'" 
-                        class="btn btn-primary btn-link btn-sm btn-just-icon">
+                        class="btn btn-info btn-link btn-sm btn-just-icon">
                         <i class="fa fa-save"></i>
                         </button>
                     </td>

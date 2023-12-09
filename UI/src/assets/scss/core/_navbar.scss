@@ -115,10 +115,10 @@
         position: relative;
         color: inherit;
         height: 50px;
-        font-size: $navbar-brand-font-size - 0.125;
+        font-size: $navbar-brand-font-size + 0.125;
         line-height: 30px;
         padding: $padding-general-y 0;
-        font-weight: 300;
+        font-weight: 500;
         margin-left: 1rem;
     }
 

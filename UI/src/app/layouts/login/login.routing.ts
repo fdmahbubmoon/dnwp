@@ -5,5 +5,9 @@ export const LoginRoutes: Routes = [
     { 
         path: 'login',
         component: LoginComponent 
+    },
+    {
+        path: '/',
+        component: LoginComponent
     }
 ];

@@ -28,16 +28,19 @@ public class TokenService : ITokenService
     private readonly ILoggedInUserService _loggedInUserService;
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly Jwt _jwtSettings;
+    private readonly ITokenBlacklistManager _tokenBlocklistManager;
     public TokenService(
         UserManager<ApplicationUser> userManager,
         IOptionsSnapshot<Jwt> jwtSettings,
         ILoggedInUserService loggedInUserService,
-        SignInManager<ApplicationUser> signInManager)
+        SignInManager<ApplicationUser> signInManager,
+        ITokenBlacklistManager tokenBlocklistManager)
     {
         _userManager = userManager;
         _loggedInUserService = loggedInUserService;
         _signInManager = signInManager;
         _jwtSettings = jwtSettings.Value;
+        _tokenBlocklistManager = tokenBlocklistManager;
     }
 
     public async Task<TokenVm> GenerateTokenAsync(string userName, string password)
@@ -109,6 +112,8 @@ public class TokenService : ITokenService
         long? userId = _loggedInUserService.UserId;
         if (userId is not null)
         {
+            _tokenBlocklistManager.RemoveExpired();
+            _tokenBlocklistManager.Add(_loggedInUserService.AccessToken, _loggedInUserService.JwtExpiresAt);
             await _signInManager.SignOutAsync();
         }
     }
