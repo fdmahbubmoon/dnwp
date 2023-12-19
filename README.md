@@ -1,4 +1,4 @@
-# DNWP: Angular and .NET Core App with EF Core Code First Database
+# DNWP: Angular and .NET Core App with EF Core Code First Database using Clean Architecture
 
 ## Overview
 
