@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DNWP.Common")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9a6f1ffa10abd19388178d9d2baff4d391880824")]
 [assembly: System.Reflection.AssemblyProductAttribute("DNWP.Common")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DNWP.Common")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

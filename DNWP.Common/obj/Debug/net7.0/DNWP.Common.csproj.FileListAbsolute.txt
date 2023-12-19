@@ -10,3 +10,4 @@ C:\Users\BS347\source\repos\DotNetWebProject\DNWP.Common\obj\Debug\net7.0\DNWP.C
 C:\Users\BS347\source\repos\DotNetWebProject\DNWP.Common\obj\Debug\net7.0\refint\DNWP.Common.dll
 C:\Users\BS347\source\repos\DotNetWebProject\DNWP.Common\obj\Debug\net7.0\DNWP.Common.pdb
 C:\Users\BS347\source\repos\DotNetWebProject\DNWP.Common\obj\Debug\net7.0\ref\DNWP.Common.dll
+C:\Users\BS347\source\repos\DotNetWebProject\DNWP.Common\obj\Debug\net7.0\DNWP.Common.sourcelink.json

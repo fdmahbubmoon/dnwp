@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace DNWP.Repository.Base;
+namespace DNWP.Application.RepositoryInterfaces;
 
 public interface IRepository<TEntity> where TEntity : class
 {

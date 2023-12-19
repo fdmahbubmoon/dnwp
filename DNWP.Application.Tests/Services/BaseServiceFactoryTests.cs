@@ -1,6 +1,6 @@
-﻿using DNWP.Application.Services;
+﻿using DNWP.Application.RepositoryInterfaces;
+using DNWP.Application.Services;
 using DNWP.Domain.Entities;
-using DNWP.Repository.Base;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace DNWP.Application.Tests.Services;

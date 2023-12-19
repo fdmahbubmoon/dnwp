@@ -10,3 +10,4 @@ C:\Users\BS347\source\repos\DotNetWebProject\DNWP.Domain\obj\Debug\net7.0\DNWP.D
 C:\Users\BS347\source\repos\DotNetWebProject\DNWP.Domain\obj\Debug\net7.0\refint\DNWP.Domain.dll
 C:\Users\BS347\source\repos\DotNetWebProject\DNWP.Domain\obj\Debug\net7.0\DNWP.Domain.pdb
 C:\Users\BS347\source\repos\DotNetWebProject\DNWP.Domain\obj\Debug\net7.0\ref\DNWP.Domain.dll
+C:\Users\BS347\source\repos\DotNetWebProject\DNWP.Domain\obj\Debug\net7.0\DNWP.Domain.sourcelink.json

@@ -1,10 +1,8 @@
 ﻿using DNWP.Application.Interfaces;
 using DNWP.Domain.Models;
-using DNWP.Infrastructure;
-using DNWP.Repository.Base;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using System.Linq.Expressions;
+using DNWP.Application.RepositoryInterfaces;
 
 namespace DNWP.Application.Services;
 

@@ -7,8 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DNWP.Domain\DNWP.Domain.csproj" />
+    <ProjectReference Include="..\DNWP.Application\DNWP.Application.csproj" />
     <ProjectReference Include="..\DNWP.Infrastructure\DNWP.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Base\" />
+    <Folder Include="DbContexts\" />
   </ItemGroup>
 
 </Project>

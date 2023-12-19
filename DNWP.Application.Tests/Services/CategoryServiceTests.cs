@@ -1,11 +1,11 @@
 ﻿using DNWP.Application.Services;
-using DNWP.Common.Exceptions;
 using DNWP.Domain.Entities;
 using DNWP.Domain.Models;
-using DNWP.Repository.Base;
 using Microsoft.Extensions.Caching.Memory;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
+using DNWP.Application.Exceptions;
+using DNWP.Application.RepositoryInterfaces;
 
 [assembly: InternalsVisibleTo("DNWP.Application")]
 

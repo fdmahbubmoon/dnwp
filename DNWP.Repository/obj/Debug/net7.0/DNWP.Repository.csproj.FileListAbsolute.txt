@@ -15,3 +15,8 @@ C:\Users\BS347\source\repos\DotNetWebProject\DNWP.Repository\obj\Debug\net7.0\DN
 C:\Users\BS347\source\repos\DotNetWebProject\DNWP.Repository\obj\Debug\net7.0\refint\DNWP.Repository.dll
 C:\Users\BS347\source\repos\DotNetWebProject\DNWP.Repository\obj\Debug\net7.0\DNWP.Repository.pdb
 C:\Users\BS347\source\repos\DotNetWebProject\DNWP.Repository\obj\Debug\net7.0\ref\DNWP.Repository.dll
+C:\Users\BS347\source\repos\DotNetWebProject\DNWP.Repository\bin\Debug\net7.0\DNWP.Application.dll
+C:\Users\BS347\source\repos\DotNetWebProject\DNWP.Repository\bin\Debug\net7.0\DNWP.Common.dll
+C:\Users\BS347\source\repos\DotNetWebProject\DNWP.Repository\bin\Debug\net7.0\DNWP.Application.pdb
+C:\Users\BS347\source\repos\DotNetWebProject\DNWP.Repository\bin\Debug\net7.0\DNWP.Common.pdb
+C:\Users\BS347\source\repos\DotNetWebProject\DNWP.Repository\obj\Debug\net7.0\DNWP.Repository.sourcelink.json

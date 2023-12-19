@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.Security.Claims;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 
-namespace DNWP.Common.Helpers;
+namespace DNWP.Application.Helpers;
 
 public class LoggedInUserService : ILoggedInUserService
 {

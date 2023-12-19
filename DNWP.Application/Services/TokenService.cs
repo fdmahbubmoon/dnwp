@@ -1,7 +1,4 @@
 ﻿using DNWP.Application.Interfaces;
-using DNWP.Common.Exceptions;
-using DNWP.Common.Helpers;
-using DNWP.Common.Settings;
 using DNWP.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
@@ -9,6 +6,9 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using DNWP.Application.Exceptions;
+using DNWP.Application.Helpers;
+using DNWP.Application.Settings;
 
 namespace DNWP.Application.Services;
 
