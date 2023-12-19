@@ -32,7 +32,7 @@ export class ItemComponent implements OnInit {
   };;
   file: File = null;
   loading: boolean = false;
-  baseAddress = "https://localhost:7024/api/Item";
+  baseAddress = "Item";
   dataSource = new MatTableDataSource();
   columns: string[] = ['id', 'itemName', 'itemUnit', 'itemQuantity', 'categoryName', 'action'];
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -51,7 +51,7 @@ export class ItemComponent implements OnInit {
   }
 
   getCategories(){
-    this.httpClient.get('https://localhost:7024/api/Category')
+    this.httpClient.get('Category')
     .subscribe((res: Category[])=>{
       this.categories = res;
     });

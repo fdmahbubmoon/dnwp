@@ -3,17 +3,24 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TokenVm } from 'app/models/tokenVm';
 import { AuthService } from 'app/services/auth.service';
+import { environment } from 'environments/environment';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable, catchError, finalize, map, of, tap, throwError } from 'rxjs';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
+  private API_URL= environment.apiBaseUrl;
 
   constructor(private authService: AuthService, private router: Router) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    let isAuthRequest = req.url == 'https://localhost:7024/api/Auth';
     
+    req = req.clone({
+      url: this.API_URL + req.url
+    });
+    
+    let isAuthRequest = req.url == (this.API_URL + 'Auth');
+
     if(!isAuthRequest){
         let token = this.authService.getToken() ?? {token_type: '', access_token: ''};
         const authReq = req.clone({

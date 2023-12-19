@@ -25,7 +25,7 @@ export class CategoryComponent implements OnInit {
   }
   dataSource = new MatTableDataSource();
   columns: string[] = ['id', 'categoryName', 'action'];
-  baseAddress = "https://localhost:7024/api/Category";
+  baseAddress = "Category";
   @ViewChild('fileInput') fileInput: ElementRef;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   pagination = new Pagination();

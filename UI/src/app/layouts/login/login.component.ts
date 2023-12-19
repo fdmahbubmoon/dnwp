@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
         
     }
     login(){
-        this.httpClient.post('https://localhost:7024/api/Auth', this.loginDto)
+        this.httpClient.post('Auth', this.loginDto)
         .subscribe(
             (res: TokenVm)=>{
                 if(res.roles.includes('Admin')){
