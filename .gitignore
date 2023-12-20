@@ -23,11 +23,13 @@
 *.lib
 *.sbr
 *.sdf
+*.coverage
 ipch/
 obj/
 Bin/
 [Ll]og/
 [Ll]ogs/
+.vs
 
 # Visual Studio Code
 .vscode/

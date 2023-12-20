@@ -10,6 +10,7 @@ import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.compon
 import { LoginComponent } from './layouts/login/login.component';
 import { LoginRouteModule } from './layouts/login/login.module';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { LoaderService } from './services/loader.service';
 
 @NgModule({
   imports: [
@@ -27,6 +28,7 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     AdminLayoutComponent
   ],
   providers: [
+    LoaderService,
     {
       provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true
     }

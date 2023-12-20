@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TokenVm } from 'app/models/tokenVm';
 import { AuthService } from 'app/services/auth.service';
+import { LoaderService } from 'app/services/loader.service';
 import { environment } from 'environments/environment';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable, catchError, finalize, map, of, tap, throwError } from 'rxjs';
@@ -11,10 +12,12 @@ import { Observable, catchError, finalize, map, of, tap, throwError } from 'rxjs
 export class AuthInterceptor implements HttpInterceptor {
   private API_URL= environment.apiBaseUrl;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, 
+    private router: Router,
+    private loaderService: LoaderService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    
+    this.loaderService.show();
     req = req.clone({
       url: this.API_URL + req.url
     });
@@ -29,7 +32,10 @@ export class AuthInterceptor implements HttpInterceptor {
 
         return next.handle(authReq).pipe(
             map((event: HttpEvent<any>) => {
-                return event;
+              if(event instanceof HttpResponse){
+                this.loaderService.hide();
+              }
+              return event;
             }),
             catchError(x=> this.handleAuthError(x))
         );
@@ -39,6 +45,7 @@ export class AuthInterceptor implements HttpInterceptor {
         if (event instanceof HttpResponse) {
             if(isAuthRequest)
                 this.authService.setToken(event.body);
+              this.loaderService.hide();
         }
         return event;
     }));
